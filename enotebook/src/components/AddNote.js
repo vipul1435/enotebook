@@ -29,7 +29,7 @@ export default function AddNote() {
             <textarea className="form-control" name='description' onChange={onChangeValue} id="description" rows="3" placeholder='Enter descriptioin here'></textarea>
             <label htmlFor="tag" className="form-label mt-3">Tag</label>
             <textarea className="form-control" name='tag' id="tag" rows="1" onChange={onChangeValue} placeholder='Enter tag here'></textarea>
-            <button type="submit" className="btn btn-warning my-3" onClick={handelClick}>Add Note</button>
+            <button disabled = {note.title.length<5 || note.description.length<5} type="submit" className="btn btn-warning my-3" onClick={handelClick}>Add Note</button>
         </div> 
     </>
   )

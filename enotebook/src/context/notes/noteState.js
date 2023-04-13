@@ -29,7 +29,7 @@ const NoteState = (props)=>{
     
     const addNote =async (title ,description , tag) =>{
 
-      const response = await fetch(`${host}/api/notes/addNotes`,{
+      const response =  await fetch(`${host}/api/notes/addNotes`,{
         method : 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -37,24 +37,33 @@ const NoteState = (props)=>{
         },
         body: JSON.stringify({title,description,tag})
       })
-      console.log(response);
-      // const note = {
-      //   "_id": "6160b5sd058454a01d71",
-      //   "user": "64292497251f4557df8bb41e",
-      //   "title": title,
-      //   "description": description,
-      //   "tag": tag,
-      //   "date": "2023-04-07T09:27:50.754Z",
-      //   "__v": 0
-      // }
-      // console.log(notes[1]);
-      // setNotes(notes.concat(note));
+      const note = await response.json();
+      setNotes(notes.concat(note));
+    }
+
+    const editNote = async(id,title,description,tag) =>{    
+      await fetch(`${host}/api/notes/updateNotes/${id}`,{
+        method : 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQyOTI0OTcyNTFmNDU1N2RmOGJiNDFlIn0sImlhdCI6MTY4MDQxNzk5Nn0.UF1pCiyVPPjWoUjiYJJZyklFDfSqfXp3g_xJ5jfXDS4"
+        },
+        body: JSON.stringify({title,description,tag})
+      })
+      let newnote = JSON.parse(JSON.stringify(notes));
+      for(let i=0;i<newnote.length; i++ ){
+        if(newnote[i]._id===id){
+          newnote[i].title = title;
+          newnote[i].description = description;
+          newnote[i].tag= tag;
+          break;
+        }
+      }
+      setNotes(newnote);
     }
     const [notes , setNotes] = useState([]);
-
-
     return (
-        <NoteContext.Provider value={{notes,setNotes,deleteNote,fetchNotes, addNote}}>
+        <NoteContext.Provider value={{notes,setNotes,deleteNote,fetchNotes, addNote, editNote}}>
             {props.children}
         </NoteContext.Provider>
     )
