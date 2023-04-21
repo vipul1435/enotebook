@@ -5,7 +5,7 @@ import noteContext from '../context/notes/noteContext';
 export default function Signup() {
     const {showAlert} = useContext(noteContext);
     const navigate = useNavigate();
-    const host = "http://localhost:5000";
+    const host = "https://backend-enotebook.onrender.com";
     const [credentials, setcredentials] = useState({name:"",email:"",password:""});
     const onChange =(e) =>{
         setcredentials({...credentials, [e.target.name]:e.target.value})
