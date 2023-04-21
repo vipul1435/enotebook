@@ -23,6 +23,7 @@ const NoteState = (props)=>{
           'auth-token': localStorage.getItem('token')
         }
       })
+      showAlert("Note has been deleted","success");
       const newItem = notes.filter((note)=>{ return note._id!==id})
       setNotes(newItem);
     }
@@ -37,6 +38,7 @@ const NoteState = (props)=>{
         },
         body: JSON.stringify({title,description,tag})
       })
+      showAlert("Note has been Added","success");
       const note = await response.json();
       setNotes(notes.concat(note));
     }
@@ -59,11 +61,23 @@ const NoteState = (props)=>{
           break;
         }
       }
+      showAlert("Note has been Updated","success");
       setNotes(newnote);
     }
+    const [alert, setAlert] = useState(null);
+
+    const showAlert = (msg, type) => {
+      setAlert({
+        message: msg,
+        type: type,
+      });
+      setTimeout(() => {
+        setAlert(null);
+      }, 1500);
+    };
     const [notes , setNotes] = useState([]);
     return (
-        <NoteContext.Provider value={{notes,setNotes,deleteNote,fetchNotes,addNote,editNote}}>
+        <NoteContext.Provider value={{notes,setNotes,deleteNote,fetchNotes,addNote,editNote,alert,showAlert}}>
             {props.children}
         </NoteContext.Provider>
     )

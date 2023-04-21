@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import noteContext from '../context/notes/noteContext';
 
 export default function Signup() {
+    const {showAlert} = useContext(noteContext);
     const navigate = useNavigate();
     const host = "http://localhost:5000";
     const [credentials, setcredentials] = useState({name:"",email:"",password:""});
@@ -21,10 +23,10 @@ export default function Signup() {
       if(json.success){
           localStorage.setItem('token',json.authToken);
           navigate("/")
+          showAlert("Signup successfully","success");
       } else {
-          alert(json.errors);
+        showAlert("signup failed","danger");
       }
-      console.log(json);
   }
   return (
     <div className="container mt-5">

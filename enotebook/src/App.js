@@ -25,7 +25,6 @@ function App() {
         <Route exact path='/signup' element={<Signup/>}/>
       </Routes>
     </Router>
-
     </NoteState>
     </>
   );
